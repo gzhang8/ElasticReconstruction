@@ -60,12 +60,13 @@ void do_all( int num )
 			// Downsample
 			pcl::console::print_highlight ("Downsampling...\n");
 			pcl::VoxelGrid<PointNT> grid;
+      // 5cm from config, for each box
 			grid.setLeafSize (leaf, leaf, leaf);
 			grid.setInputCloud (object);
 			grid.filter (*object);
 			grid.setInputCloud (scene);
 			grid.filter (*scene);
-
+      // Use larger piece as scene
 			if ( config.smart_swap_ ) {
 				if ( object->size() > scene->size() ) {
 					PointCloudT::Ptr temp = object;
@@ -89,6 +90,7 @@ void do_all( int num )
 				nest.setRadiusSearch( config.normal_radius_ );
 				nest.setInputCloud (scene);
 				nest.compute (*scene);
+        // normal estimate should agree with normal from file within (-90,90)
 				for ( int i = 0; i < scene->size(); i++ ) {
 					if ( scene->points[ i ].normal_x * scene_bak->points[ i ].normal_x 
 						+ scene->points[ i ].normal_y * scene_bak->points[ i ].normal_y
