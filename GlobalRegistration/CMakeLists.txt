@@ -1,0 +1,2 @@
+add_executable(GlobalRegistration GlobalRegistration.cpp RansacCurvature.cpp )
+target_link_libraries(GlobalRegistration pcl_common pcl_io pcl_kdtree pcl_visualization ${PCL_INCLUDE_DIRS} ${PCL_LIBRARY_DIRS} ${Boost_LIBRARIES} ${PCL_LIBRARIES} ${PCL_SURFACE_LIBRARIES} ${PCL_SEGMENTATION_LIBRARIES} ${PCL_FEATURES_LIBRARIES}  ${PCL_SEARCH_LIBRARIES}  ${PCL_IO_LIBRARIES} ${PCL_KDTREE_LIBRARIES} ${PCL_GPU_FEATURES_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})

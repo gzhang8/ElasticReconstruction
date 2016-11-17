@@ -1,7 +1,6 @@
 // GlobalRegistration.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include <Eigen/Core>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -25,7 +24,7 @@ typedef pcl::PointCloud<PointNT> PointCloudT;
 typedef pcl::FPFHSignature33 FeatureT;
 typedef pcl::FPFHEstimationOMP<PointNT,PointNT,FeatureT> FeatureEstimationT;
 typedef pcl::PointCloud<FeatureT> FeatureCloudT;
-
+using namespace std;
 
 std::string dir_name = "";
 
