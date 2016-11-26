@@ -62,6 +62,9 @@ bool EdgeSE3Switchable::write(std::ostream& os) const
 void EdgeSE3Switchable::linearizeOplus()
 {
 
+  //_jacobianOplus[0].resize(6,6); 
+  //_jacobianOplus[1].resize(6,6);
+  //_jacobianOplus[2].resize(6,1);
     g2o::VertexSE3* from = static_cast<g2o::VertexSE3*>(_vertices[0]);
     g2o::VertexSE3* to = static_cast<g2o::VertexSE3*>(_vertices[1]);
     const VertexSwitchLinear* vSwitch = static_cast<const VertexSwitchLinear*>(_vertices[2]);
