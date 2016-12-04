@@ -21,6 +21,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}
 endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(GraphOptimizer)
+add_subdirectory(FragmentOptimizer)
+add_subdirectory(Integrate)
 
 add_definitions(
     -std=c++11
@@ -30,5 +32,3 @@ add_definitions(
   
 add_subdirectory(GlobalRegistration)
 add_subdirectory(BuildCorrespondence)
-add_subdirectory(Integrate)
-add_subdirectory(FragmentOptimizer)

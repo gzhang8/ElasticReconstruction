@@ -69,8 +69,8 @@ void CIntegrateApp::Init()
 	if ( boost::filesystem::exists( traj_filename_ ) ) {
 		traj_.LoadFromFile( traj_filename_ );
 	}
-
-	if ( boost::filesystem::exists( seg_filename_ ) ) {
+  auto has_seg_file =  boost::filesystem::exists( seg_filename_ );
+	if ( has_seg_file ) {
 		seg_traj_.LoadFromFile( seg_filename_ );
 
 		if ( boost::filesystem::exists( pose_filename_ ) ) {
