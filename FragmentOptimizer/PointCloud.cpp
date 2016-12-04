@@ -1,5 +1,5 @@
-#include "StdAfx.h"
 #include "PointCloud.h"
+#include <Eigen/Eigen>
 #include <pcl/io/pcd_io.h>
 
 
@@ -26,7 +26,7 @@ void PointCloud::LoadFromPCDFile( const char * filename )
 	}
 	float x[ 6 ];
 	for ( int i = 0; i < ( int )rawpcd->points.size(); i++ ) {
-		if ( !_isnan( rawpcd->points[ i ].normal_x ) ) {
+		if ( !std::isnan( rawpcd->points[ i ].normal_x ) ) {
 			points_.resize( points_.size() + 1 );
 			x[ 0 ] = rawpcd->points[ i ].x;
 			x[ 1 ] = rawpcd->points[ i ].y;

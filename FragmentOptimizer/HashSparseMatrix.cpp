@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "HashSparseMatrix.h"
 
 
@@ -33,7 +32,8 @@ void HashSparseMatrix::Add( int i, int j, double value, TripletVector & data )
 		map_.insert( IntPair( key, data.size() ) );
 		data.push_back( Triplet( i + ioffset_, j + joffset_, value ) );
 	} else {
-		data[ it->second ].m_value += value;
+		//data[ it->second ].value() += value;
+    data[ it->second ] = Triplet( data[ it->second ].row(), data[ it->second ].col(), value + data[ it->second ].value() );
 	}
 }
 

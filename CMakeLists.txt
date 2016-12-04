@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ElasticReconstruction)
 
 find_package(PCL 1.7 REQUIRED COMPONENTS common io kdtree visualization registration search features gpu_features segmentation surface)
-include_directories(${PCL_INCLUDE_DIRS})
+include_directories(${PCL_INCLUDE_DIRS} /include/usr/local/include/eigen3/unsupported/)
+
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(
     -std=c++11
@@ -32,3 +33,4 @@ add_definitions(
 add_subdirectory(GlobalRegistration)
 add_subdirectory(BuildCorrespondence)
 add_subdirectory(Integrate)
+add_subdirectory(FragmentOptimizer)

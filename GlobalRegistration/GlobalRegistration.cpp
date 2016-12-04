@@ -1,6 +1,5 @@
 // GlobalRegistration.cpp : Defines the entry point for the console application.
 //
-
 #include <Eigen/Core>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -354,11 +353,11 @@ int main(int argc, char * argv[])
 		create_pose_traj();
 		create_odometry( num_of_pcds );
 
-		//if ( boost::filesystem::exists( "result.txt" ) ) {
-    //cout << "result.txt detected. skip global registration." << endl;
-		//} else {
-    //do_all( num_of_pcds );
-		//}
+		if ( boost::filesystem::exists( "result.txt" ) ) {
+      cout << "result.txt detected. skip global registration." << endl;
+		} else {
+      do_all( num_of_pcds );
+		}
 	}
 
 	return 0;
