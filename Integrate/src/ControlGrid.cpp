@@ -1,4 +1,5 @@
-#include "StdAfx.h"
+//#include "StdAfx.h"
+#include <stdio.h>
 #include "ControlGrid.h"
 
 

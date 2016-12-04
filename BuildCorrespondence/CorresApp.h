@@ -4,10 +4,13 @@
 #include <pcl/point_types.h>
 #include <hash_set>
 #include <hash_map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "Helper.h"
 
 typedef std::pair< int, int > CorrespondencePair;
+using namespace std;
 
 class CCorresApp
 {
@@ -34,11 +37,13 @@ public:
 
 	char m_pDirName[ 1024 ];
 
-	stdext::hash_set< int > blacklist_;
+	//stdext::hash_set< int > blacklist_;
+	std::unordered_set< int > blacklist_;
 
 	bool redux_;
 	RGBDTrajectory redux_traj_;
-	stdext::hash_map< int, int > redux_map_;
+  std::unordered_map< int, int > redux_map_;
+  //std::hash_map< int, int > redux_map_;
 	int num_;
 	int interval_;
 	double length_;

@@ -1,6 +1,8 @@
 #include "stdio.h"
 #include "IntegrateApp.h"
-
+#include <iostream>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
 
 
 CIntegrateApp::CIntegrateApp( pcl::Grabber & source, bool use_device )
@@ -204,6 +206,18 @@ void CIntegrateApp::source_cb2_trigger( const boost::shared_ptr< openni_wrapper:
 	data_ready_cond_.notify_one();
 }
 
+
+bool UVD2XYZ( int u, int v, unsigned short d, float & x, float & y, float & z ) {
+		if ( d > 0 ) {
+			z = d / 1000.0f;
+			x = ( u - 328.94272f ) * z / 529.21508f;
+			y = ( v - 267.4806817f ) * z / 525.5639363f;
+			return true;
+		} else {
+			return false;
+		}
+}
+
 void CIntegrateApp::Execute( bool has_data )
 {
 	std::cout << frame_id_<< std::endl;
@@ -240,17 +254,58 @@ void CIntegrateApp::Execute( bool has_data )
 		}
 	}
 
-	volume_.ScaleDepth( depth_, scaled_depth_ );
-	volume_.Integrate( depth_, scaled_depth_, traj_.data_[ frame_id_ - 1 ].transformation_ );
-	if(saved_frame_count_ % snapshot_rate_ == 0)
-	{
-		Eigen::Matrix4f fourfRT = traj_.data_[ frame_id_ - 1 ].transformation_.cast<float>();
-		Eigen::Affine3f F ;
-		F.matrix() = fourfRT;
-		screenshot_manager_.saveImage (F, rgb24_);
+	//save pcd
+
+	pcl::PointCloud<pcl::PointXYZRGB> cloud;
+
+  	// Fill in the cloud data
+  	cloud.width    = cols_;
+  	cloud.height   = rows_;
+  	cloud.is_dense = false;
+  	cloud.points.resize (cloud.width * cloud.height);
+
+  	
+	float x =0 , y =0 , z =0;
+	for ( int v = 0; v < rows_; v += 1 ) {
+		for ( int u = 0; u < cols_; u += 1 ) {
+			int i = v * cols_ + u;
+			unsigned short d = depth_[ v * cols_ + u ];
+			UVD2XYZ( u, v, d, x, y, z);
+			cloud.points[i].x = x;
+			cloud.points[i].y = y;
+			cloud.points[i].z = z;
+			cloud.points[i].r = rgb24_.data[i].r;
+			cloud.points[i].g = rgb24_.data[i].g;
+			cloud.points[i].b = rgb24_.data[i].b;
+		}
 	}
-	saved_frame_count_++;
+	std::string frame_name = std::to_string(frame_id_);
+	pcl::io::savePCDFileASCII (frame_name + ".pcd", cloud);
+
+	//save pose
+
+	std::ofstream file(frame_name + ".txt");
+    if (file.is_open())
+    {
+      
+      file << traj_.data_[ frame_id_ - 1 ].transformation_;
+	}
+	file.close();
+
+
+	// volume_.ScaleDepth( depth_, scaled_depth_ );
+	// volume_.Integrate( depth_, scaled_depth_, traj_.data_[ frame_id_ - 1 ].transformation_ );
+	// if(saved_frame_count_ % snapshot_rate_ == 0)
+	// {
+	// 	Eigen::Matrix4f fourfRT = traj_.data_[ frame_id_ - 1 ].transformation_.cast<float>();
+	// 	Eigen::Affine3f F ;
+	// 	F.matrix() = fourfRT;
+	// 	screenshot_manager_.saveImage (F, rgb24_);
+	// }
+	// saved_frame_count_++;
 }
+
+
 
 void CIntegrateApp::Reproject()
 {

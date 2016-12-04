@@ -8,12 +8,13 @@
  *      Author: Christian Kerl <christian.kerl@in.tum.de>
  */
 
+#define EIGEN_NO_DEBUG
+#define NDEBUG
 #include "edge_se3Switchable.h"
 #include "vertex_switchLinear.h"
 //#include <GL/gl.h>
 #include <g2o/types/slam3d/vertex_se3.h>
 #include <g2o/types/slam3d/isometry3d_gradients.h>
-
 
 using namespace std;
 using namespace Eigen;

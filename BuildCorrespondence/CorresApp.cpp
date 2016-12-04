@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "CorresApp.h"
 #include <pcl/registration/icp.h>
 #include <pcl/registration/transformation_estimation_point_to_plane_lls.h>
@@ -35,7 +34,7 @@ void CCorresApp::LoadData( std::string filename, int num )
 		c = strrchr( filename.c_str(), '/' );
 	}
 	memset( m_pDirName, 0, 1024 );
-	strncat_s( m_pDirName, 1024, filename.c_str(), c - filename.c_str() + 1 );
+	strncat( m_pDirName, filename.c_str(), c - filename.c_str() + 1 );
 
 	if ( num > 0 ) {
 		RGBDTrajectory temp;
@@ -91,7 +90,7 @@ void CCorresApp::LoadData( std::string filename, int num )
 			PCL_ERROR( "Error loading file.\n" );
 		}
 		for ( int j = 0; j < ( int )rawpcd->points.size(); j++ ) {
-			if ( !_isnan( rawpcd->points[ j ].normal_x ) ) {
+			if ( !std::isnan( rawpcd->points[ j ].normal_x ) ) {
 				pcd->push_back( rawpcd->points[ j ] );
 			}
 		}
@@ -281,7 +280,7 @@ void CCorresApp::Registration()
 		}
 
 		if ( redux_ ) {
-			stdext::hash_map< int, int >::iterator it = redux_map_.find( GetReduxIndex( corres_traj_.data_[ i ].id1_, corres_traj_.data_[ i ].id2_ ) );
+			std::unordered_map< int, int >::iterator it = redux_map_.find( GetReduxIndex( corres_traj_.data_[ i ].id1_, corres_traj_.data_[ i ].id2_ ) );
 
 			if ( it != redux_map_.end() ) {
 				corres_traj_.data_[ i ].transformation_ = redux_traj_.data_[ it->second ].transformation_;
