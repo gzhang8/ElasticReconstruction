@@ -8,6 +8,7 @@
 #include "vertigo/vertex_switchLinear.h"
 #include "vertigo/edge_switchPrior.h"
 #include "vertigo/edge_se3Switchable.h"
+#include <unordered_map>
 
 typedef g2o::BlockSolver< g2o::BlockSolverTraits<6, 3> >  SlamBlockSolver;
 typedef g2o::LinearSolverCSparse<SlamBlockSolver::PoseMatrixType> SlamLinearCSparseSolver;
