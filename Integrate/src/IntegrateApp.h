@@ -12,7 +12,7 @@
 
 #include "TSDFVolume.h"
 #include "ControlGrid.h"
-#include "screenshot_manager.h"
+//#include "screenshot_manager.h"
 
 using namespace std;
 
@@ -77,9 +77,9 @@ public:
 private:
 	std::vector< unsigned short > depth_buffer_;
 	int saved_frame_count_;
-	ScreenshotManager screenshot_manager_;
-	pcl::gpu::PtrStepSz<const pcl::gpu::kinfuLS::PixelRGB> rgb24_;  
-	std::vector<pcl::gpu::kinfuLS::PixelRGB> source_image_data_;
+	//ScreenshotManager screenshot_manager_;
+	//pcl::gpu::PtrStepSz<const pcl::gpu::kinfuLS::PixelRGB> rgb24_;  
+	//std::vector<pcl::gpu::kinfuLS::PixelRGB> source_image_data_;
 
 #ifdef IMAGE_VIEWER
 	pcl::visualization::ImageViewer viewer_depth_;

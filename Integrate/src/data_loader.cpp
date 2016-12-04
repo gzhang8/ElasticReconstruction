@@ -52,7 +52,7 @@ void CIntegrateApp::Init()
 	}
 
 	// screenshot
-	screenshot_manager_.setCameraIntrinsics(); //(volume_.camera_.fx_);
+	//screenshot_manager_.setCameraIntrinsics(); //(volume_.camera_.fx_);
 
 
 	if ( ctr_num_ > 0 && boost::filesystem::exists( ctr_filename_ ) && boost::filesystem::exists( seg_filename_ ) ) {
@@ -193,13 +193,13 @@ void CIntegrateApp::source_cb2_trigger( const boost::shared_ptr< openni_wrapper:
 		depth_wrapper->fillDepthImageRaw( cols_, rows_, &depth_[ 0 ] );
 		frame_id_ = depth_wrapper->getDepthMetaData().FrameID();
 
-		rgb24_.cols = image_wrapper->getWidth();
-        rgb24_.rows = image_wrapper->getHeight();
-        rgb24_.step = rgb24_.cols * rgb24_.elemSize(); 
-  
-        source_image_data_.resize(rgb24_.cols * rgb24_.rows);
-        image_wrapper->fillRGB(rgb24_.cols, rgb24_.rows, (unsigned char*)&source_image_data_[0]);
-        rgb24_.data = &source_image_data_[0];    
+		//rgb24_.cols = image_wrapper->getWidth();
+    //rgb24_.rows = image_wrapper->getHeight();
+    //rgb24_.step = rgb24_.cols * rgb24_.elemSize(); 
+    // 
+    //source_image_data_.resize(rgb24_.cols * rgb24_.rows);
+    //image_wrapper->fillRGB(rgb24_.cols, rgb24_.rows, (unsigned char*)&source_image_data_[0]);
+    //rgb24_.data = &source_image_data_[0];    
 
 
 	}
@@ -274,9 +274,9 @@ void CIntegrateApp::Execute( bool has_data )
 			cloud.points[i].x = x;
 			cloud.points[i].y = y;
 			cloud.points[i].z = z;
-			cloud.points[i].r = rgb24_.data[i].r;
-			cloud.points[i].g = rgb24_.data[i].g;
-			cloud.points[i].b = rgb24_.data[i].b;
+			//cloud.points[i].r = rgb24_.data[i].r;
+			//cloud.points[i].g = rgb24_.data[i].g;
+			//cloud.points[i].b = rgb24_.data[i].b;
 		}
 	}
 	std::string frame_name = std::to_string(frame_id_);
