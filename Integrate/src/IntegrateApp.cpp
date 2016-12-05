@@ -189,7 +189,7 @@ void CIntegrateApp::source_cb2_trigger( const boost::shared_ptr< openni_wrapper:
 		}
                   
 		depth_wrapper->fillDepthImageRaw( cols_, rows_, &depth_[ 0 ] );
-		frame_id_ = depth_wrapper->getDepthMetaData().FrameID();
+		frame_id_ = depth_wrapper->getDepthMetaData().FrameID() + 1;
 
 		//rgb24_.cols = image_wrapper->getWidth();
     //rgb24_.rows = image_wrapper->getHeight();
