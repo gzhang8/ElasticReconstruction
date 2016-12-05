@@ -82,10 +82,13 @@ int main(int argc, char * argv[])
 
 	{
 		pcl::ScopeTime time( "Integrate All" );
-		try { app.StartMainLoop (triggered_capture); }  
-		catch (const pcl::PCLException& /*e*/) { cout << "PCLException" << endl; }
-		catch (const std::bad_alloc& /*e*/) { cout << "Bad alloc" << endl; }
-		catch (const std::exception& /*e*/) { cout << "Exception" << endl; }
+		int aaaa = 0;
+		std::cout << aaaa <<std::endl;
+		app.StartMainLoop (triggered_capture);
+		//try { app.StartMainLoop (triggered_capture); }  
+		//catch (const pcl::PCLException& /*e*/) { cout << "PCLException" << endl; }
+		//catch (const std::bad_alloc& /*e*/) { cout << "Bad alloc" << endl; }
+		//catch (const std::exception& /*e*/) { cout << "Exception" << endl; }
 	}
 	return 0;
 }
