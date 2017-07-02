@@ -1,11 +1,11 @@
 addpath( '../Core' );
 
-names = { 'opencv', '4pcs', 'super4pcs', 'pcl', 'pcl_modified' };
+names = { 'opencv', '4pcs', 'super4pcs', 'pcl', 'pcl_modified','cuda_opt', 'cuda_opt_hypo'};
 basedir = 'Data/RegistrationEvaluation/';
-dirnames = { 'livingroom1', 'livingroom2', 'office1', 'office2' };
+dirnames = { 'livingroom1', 'livingroom2', 'office1'}%, 'office2'};
 
 names_num = size( names, 2 );
-synth_num = 4;
+synth_num = 3;
 
 recall = zeros( synth_num, names_num );
 precision = zeros( synth_num, names_num );
@@ -20,7 +20,7 @@ for i = 1 : synth_num
     end
 end
 
-eval_res = [ mean( recall ); mean( precision ) ];
+eval_res = [ mean( recall,1 ); mean( precision,1) ];
 
 fprintf( '%15s :\tRecall\tPrecision\n', 'Method' );
 fprintf( '----------------------------------------\n' );
