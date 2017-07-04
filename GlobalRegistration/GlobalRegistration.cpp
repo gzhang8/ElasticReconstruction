@@ -36,7 +36,7 @@ void do_all( int num )
 
 	RGBDTrajectory traj;
 	RGBDInformation info;
-//#pragma omp parallel for num_threads( 8 ) schedule( dynamic )
+#pragma omp parallel for num_threads( 8 ) schedule( dynamic )
 	for ( int i = 0; i < num; i++ ) {
 		for ( int j = i + 1; j < num; j++ ) {
 			// Load object and scene
@@ -167,7 +167,7 @@ void do_all( int num )
 					transformation = align.getFinalTransformation ();
 					information = align.information_source_;
 				}
-//#pragma omp critical
+#pragma omp critical
 				{
 					// Print results
 					pcl::console::print_info ("\n");
