@@ -2,7 +2,6 @@
 #include "IntegrateApp.h"
 
 
-
 CIntegrateApp::CIntegrateApp( pcl::Grabber & source, bool use_device )
 	: cols_( 640 ), rows_( 480 )
 	, volume_( cols_, rows_ )
@@ -24,8 +23,6 @@ CIntegrateApp::CIntegrateApp( pcl::Grabber & source, bool use_device )
 	, ctr_length_( 3.0 )
 	, start_from_( -1 )
 	, end_at_( 100000000 )
-	, saved_frame_count_(0)
-	, snapshot_rate_(45)
 {
 	registration_ = capture_.providesCallback< pcl::ONIGrabber::sig_cb_openni_image_depth_image > ();
 	cout << "Registration mode: " << ( registration_ ? "On" : "Off (not supported by source)" ) << endl;
@@ -48,10 +45,6 @@ void CIntegrateApp::Init()
 	if ( boost::filesystem::exists( camera_filename_ ) ) {
 		volume_.camera_.LoadFromFile( camera_filename_ );
 	}
-
-	// screenshot
-	//screenshot_manager_.setCameraIntrinsics(); //(volume_.camera_.fx_);
-
 
 	if ( ctr_num_ > 0 && boost::filesystem::exists( ctr_filename_ ) && boost::filesystem::exists( seg_filename_ ) ) {
 		grids_.resize( ctr_num_ );
@@ -80,7 +73,7 @@ void CIntegrateApp::Init()
 					traj_.data_.push_back( FramedTransformation( idx, idx, idx + 1, pose_traj_.data_[ i ].transformation_ * seg_traj_.data_[ idx ].transformation_ ) );
  				}
 			}
-			printf( "Trajectory created from pose and segment trajectories.\n" );
+			PCL_WARN( "Trajectory created from pose and segment trajectories.\n" );
 		}
 	}
 }
@@ -109,7 +102,7 @@ void CIntegrateApp::StartMainLoop( bool triggered_capture )
 		while ( !exit_ ) {
 			bool has_data;
 			if ( triggered_capture ) {
-				( ( pcl::ONIGrabber * ) &capture_ )->start();//trigger(); // Triggers new frame
+				( ( pcl::ONIGrabber * ) &capture_ )->start(); // Triggers new frame
 			}
 			has_data = data_ready_cond_.timed_wait( lock, boost::posix_time::millisec( 300 ) );
 
@@ -189,24 +182,13 @@ void CIntegrateApp::source_cb2_trigger( const boost::shared_ptr< openni_wrapper:
 		}
                   
 		depth_wrapper->fillDepthImageRaw( cols_, rows_, &depth_[ 0 ] );
-		frame_id_ = depth_wrapper->getDepthMetaData().FrameID() + 1;
-
-		//rgb24_.cols = image_wrapper->getWidth();
-    //rgb24_.rows = image_wrapper->getHeight();
-    //rgb24_.step = rgb24_.cols * rgb24_.elemSize(); 
-    // 
-    //source_image_data_.resize(rgb24_.cols * rgb24_.rows);
-    //image_wrapper->fillRGB(rgb24_.cols, rgb24_.rows, (unsigned char*)&source_image_data_[0]);
-    //rgb24_.data = &source_image_data_[0];    
-
-
+		frame_id_ = depth_wrapper->getDepthMetaData().FrameID();
 	}
 	data_ready_cond_.notify_one();
 }
 
 void CIntegrateApp::Execute( bool has_data )
 {
-	std::cout << frame_id_<< std::endl;
 	if ( !has_data ) {
 		return;
 	}
@@ -221,13 +203,12 @@ void CIntegrateApp::Execute( bool has_data )
 	}
 
 	if ( frame_id_ % 100 == 0 ) {
-		int tmp = traj_.data_.size();
-		printf( "Frames processed : %d / %d\n", frame_id_, tmp );
+		PCL_WARN( "Frames processed : %d / %d\n", frame_id_, traj_.data_.size() );
 	}
 
 	if ( frame_id_ < start_from_ || frame_id_ > end_at_ ) {
 		if ( frame_id_ > end_at_ ) {
-			printf( "Reaching the specified end point.\n" );
+			PCL_WARN( "Reaching the specified end point.\n" );
 			exit_ = true;
 		}
 		return;
@@ -242,14 +223,6 @@ void CIntegrateApp::Execute( bool has_data )
 
 	volume_.ScaleDepth( depth_, scaled_depth_ );
 	volume_.Integrate( depth_, scaled_depth_, traj_.data_[ frame_id_ - 1 ].transformation_ );
-	if(saved_frame_count_ % snapshot_rate_ == 0)
-	{
-		Eigen::Matrix4f fourfRT = traj_.data_[ frame_id_ - 1 ].transformation_.cast<float>();
-		Eigen::Affine3f F ;
-		F.matrix() = fourfRT;
-		//screenshot_manager_.saveImage (F, rgb24_);
-	}
-	saved_frame_count_++;
 }
 
 void CIntegrateApp::Reproject()

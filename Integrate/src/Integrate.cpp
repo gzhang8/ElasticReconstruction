@@ -25,7 +25,6 @@ int print_help ()
 	cout << "    --save_to <pcd_file>            : output file, default - world.pcd" << endl;
 	cout << "    --start_from <frame_id>         : frames before frame_id will be skipped" << endl;
 	cout << "    --end_at <frame_id>             : frames after frame_id will be skipped" << endl;
-	cout << "    --snapshot_rate <X_frames>, -sr     : Extract RGB textures every <X_frames>. Default: 45  " << endl;
 	cout << "Valid depth data sources:" << endl; 
 	cout << "    -dev <device> (default), -oni <oni_file>" << endl;
 	return 0;
@@ -75,20 +74,15 @@ int main(int argc, char * argv[])
 	parse_argument( argc, argv, "--resolution", app.ctr_resolution_ );	
 	parse_argument( argc, argv, "--length", app.ctr_length_ );	
 	parse_argument( argc, argv, "--interval", app.ctr_interval_ );	
-	parse_argument (argc, argv, "--snapshot_rate", app.snapshot_rate_);
-    parse_argument (argc, argv, "-sr", app.snapshot_rate_);
 
 	app.Init();
 
 	{
 		pcl::ScopeTime time( "Integrate All" );
-		int aaaa = 0;
-		std::cout << aaaa <<std::endl;
-		app.StartMainLoop (triggered_capture);
-		//try { app.StartMainLoop (triggered_capture); }  
-		//catch (const pcl::PCLException& /*e*/) { cout << "PCLException" << endl; }
-		//catch (const std::bad_alloc& /*e*/) { cout << "Bad alloc" << endl; }
-		//catch (const std::exception& /*e*/) { cout << "Exception" << endl; }
+		try { app.StartMainLoop (triggered_capture); }  
+		catch (const pcl::PCLException& /*e*/) { cout << "PCLException" << endl; }
+		catch (const std::bad_alloc& /*e*/) { cout << "Bad alloc" << endl; }
+		catch (const std::exception& /*e*/) { cout << "Exception" << endl; }
 	}
 	return 0;
 }

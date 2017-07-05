@@ -12,7 +12,6 @@
 
 #include "TSDFVolume.h"
 #include "ControlGrid.h"
-//#include "screenshot_manager.h"
 
 using namespace std;
 
@@ -38,7 +37,6 @@ class CIntegrateApp
 public:
 	std::vector< unsigned short > depth_;
 	std::vector< float > scaled_depth_;
-
 	int cols_, rows_;
 
 	pcl::Grabber & capture_;
@@ -72,14 +70,9 @@ public:
 	double ctr_length_;
 	int start_from_;
 	int end_at_;
-	int snapshot_rate_;
 
 private:
 	std::vector< unsigned short > depth_buffer_;
-	int saved_frame_count_;
-	//ScreenshotManager screenshot_manager_;
-	//pcl::gpu::PtrStepSz<const pcl::gpu::kinfuLS::PixelRGB> rgb24_;  
-	//std::vector<pcl::gpu::kinfuLS::PixelRGB> source_image_data_;
 
 #ifdef IMAGE_VIEWER
 	pcl::visualization::ImageViewer viewer_depth_;

@@ -4,9 +4,9 @@
 #include <Eigen/Dense>
 #include <boost/filesystem.hpp>
 #include <pcl/io/grabber.h>
-//#include <pcl/io/openni_grabber.h>
-//#include <pcl/io/oni_grabber.h>
-//#include <pcl/io/pcd_grabber.h>
+#include <pcl/io/openni_grabber.h>
+#include <pcl/io/oni_grabber.h>
+#include <pcl/io/pcd_grabber.h>
 #include <pcl/common/time.h>
 
 struct FramedTransformation {
@@ -89,7 +89,7 @@ public:
 				}
 			}
 			fclose ( f );
-			printf( "Camera model set to (fx, fy, cx, cy, icp_trunc, int_trunc):\n\t%.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n", 
+			PCL_WARN( "Camera model set to (fx, fy, cx, cy, icp_trunc, int_trunc):\n\t%.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n", 
 				fx_, fy_, cx_, cy_, ICP_trunc_, integration_trunc_ );
 		}
 	}

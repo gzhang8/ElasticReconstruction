@@ -1,5 +1,4 @@
-//#include "StdAfx.h"
-#include <stdio.h>
+#include "stdio.h"
 #include "TSDFVolume.h"
 
 #include <pcl/point_types.h>
@@ -55,7 +54,6 @@ void TSDFVolume::Integrate( std::vector< unsigned short > & depth, std::vector< 
 				if ( touched_unit.find( key ) == touched_unit.end() ) {
 					touched_unit.insert( key );
 					if ( data_.find( key ) == data_.end() ) {
-
 						data_[ key ] = TSDFVolumeUnit::Ptr( new TSDFVolumeUnit( 64, xi, yi, zi ) );
 					}
 					IntegrateVolumeUnit( scaled, transformation.cast< float >(), trans_inv.cast< float >(), data_[ key ], I2F( xi ), I2F( yi ), I2F( zi ) );
@@ -118,7 +116,6 @@ void TSDFVolume::SaveWorld( std::string filename )
 			for ( int j = 0; j < unit->resolution_; j++ ) {
 				for ( int k = 0; k < unit->resolution_; k++, sdf++, w++ ) {
 					if ( *w != 0.0f && *sdf < 0.98f && *sdf >= -0.98f ) {
-//std::cout << i<<std::endl;
 						p.x = i + ( unit->xi_ - 256 ) * 64;
 						p.y = j + ( unit->yi_ - 256 ) * 64;
 						p.z = k + ( unit->zi_ - 256 ) * 64;
@@ -131,5 +128,5 @@ void TSDFVolume::SaveWorld( std::string filename )
 	}
 
 	pcl::io::savePCDFile( filename, *world, true );
-	PCL_INFO( "%d voxel points have been written.\n", world->size() );
+	printf( "%d voxel points have been written.\n", world->size() );
 }

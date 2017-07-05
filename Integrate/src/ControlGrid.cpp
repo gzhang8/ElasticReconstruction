@@ -1,4 +1,3 @@
-//#include "StdAfx.h"
 #include <stdio.h>
 #include "ControlGrid.h"
 
