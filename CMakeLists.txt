@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ElasticReconstruction)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 add_definitions(
     -std=c++11)
 find_package(Eigen3 REQUIRED)
@@ -27,7 +29,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}
 endif()
 
 
-#add_subdirectory(FragmentOptimizer)
-#add_subdirectory(Integrate)
-#add_subdirectory(GlobalRegistration)
-#add_subdirectory(BuildCorrespondence)
+add_subdirectory(FragmentOptimizer)
+add_subdirectory(Integrate)
+add_subdirectory(GlobalRegistration)
+add_subdirectory(BuildCorrespondence)

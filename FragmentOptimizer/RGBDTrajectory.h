@@ -3,6 +3,7 @@
 #include <Eigen/Core>
 
 struct FramedTransformation {
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	int id1_;
 	int id2_;
 	int frame_;
